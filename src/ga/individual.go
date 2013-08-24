@@ -1,16 +1,13 @@
 package individual
 
-
 import "math/rand"
 import "time"
-
 
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 type Individual struct {
 	genome []bool
 }
-
 
 func New(size uint32) *Individual {
 	ind := Individual{}
@@ -20,7 +17,6 @@ func New(size uint32) *Individual {
 	}
 	return &ind
 }
-
 
 func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual {
 	if len(this.genome) == 0 {
@@ -47,8 +43,8 @@ func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual 
 
 func (this *Individual) Mutate(rate float64) {
 	for i := 0; i < len(this.genome); i++ {
-		if(generator.Float64() < rate) {
-			this.genome[i] = !this.genome[i];
+		if generator.Float64() < rate {
+			this.genome[i] = !this.genome[i]
 		}
 	}
 }
