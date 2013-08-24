@@ -1,6 +1,10 @@
 package individual
 
 
+import "math/rand"
+import "time"
+
+
 type Individual struct {
 	genome []bool
 }
@@ -9,6 +13,10 @@ type Individual struct {
 func New(size uint32) *Individual {
 	ind := Individual{}
 	ind.genome = make([]bool, size)
+	generator := rand.New(rand.NewSource(time.Now().UnixNano()));
+	for i := 0; i < len(ind.genome); i++ {
+		ind.genome[i] = generator.Int() % 2 == 0;
+	}
 	return &ind
 }
 

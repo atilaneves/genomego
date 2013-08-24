@@ -10,7 +10,11 @@ func calcFitness() float64 {
 func main() {
 	fmt.Println("GA!")
 	father := individual.New(7)
+	fmt.Println("father: ", *father);
+
 	mother := individual.New(7)
+	fmt.Println("mother: ", *mother);
+
 	children := father.Crossover(mother, 2)
 	fmt.Print("Children: ")
 	for i := 0; i < 2; i++ {
