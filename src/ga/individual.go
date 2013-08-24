@@ -13,7 +13,7 @@ func New(size uint32) *Individual {
 }
 
 
-func (this *Individual) crossover(other *Individual, pos uint32) [2]*Individual {
+func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual {
 	if len(this.genome) == 0 {
 		panic("Empty individual!")
 	}

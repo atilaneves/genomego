@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "ga/individual"
+import "ga"
 
 func calcFitness() float64 {
 	return 0;
@@ -9,8 +9,12 @@ func calcFitness() float64 {
 
 func main() {
 	fmt.Println("GA!")
-	father := individual.New(5)
-	mother := Individual.New(5)
-	children := father.crossover(mother)
-	fmt.Println("Children: %v", children)
+	father := individual.New(7)
+	mother := individual.New(7)
+	children := father.Crossover(mother, 2)
+	fmt.Print("Children: ")
+	for i := 0; i < 2; i++ {
+		fmt.Print(*children[i], " ");
+	}
+	fmt.Println();
 }
