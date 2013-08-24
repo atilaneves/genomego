@@ -5,6 +5,8 @@ import "math/rand"
 import "time"
 
 
+var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 type Individual struct {
 	genome []bool
 }
@@ -13,9 +15,8 @@ type Individual struct {
 func New(size uint32) *Individual {
 	ind := Individual{}
 	ind.genome = make([]bool, size)
-	generator := rand.New(rand.NewSource(time.Now().UnixNano()));
 	for i := 0; i < len(ind.genome); i++ {
-		ind.genome[i] = generator.Int() % 2 == 0;
+		ind.genome[i] = generator.Int31n(2) == 1
 	}
 	return &ind
 }
@@ -26,7 +27,7 @@ func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual 
 		panic("Empty individual!")
 	}
 	if len(other.genome) != len(this.genome) {
-		panic("Other individual has different length!");
+		panic("Other individual has different length!")
 	}
 
 	child1 := New(uint32(len(this.genome)))
@@ -42,4 +43,12 @@ func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual 
 	}
 
 	return [...]*Individual{child1, child2}
+}
+
+func (this *Individual) Mutate(rate float64) {
+	for i := 0; i < len(this.genome); i++ {
+		if(generator.Float64() < rate) {
+			this.genome[i] = !this.genome[i];
+		}
+	}
 }
