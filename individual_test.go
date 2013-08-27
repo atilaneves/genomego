@@ -15,10 +15,14 @@ func TestCrossover(t *testing.T) {
 		pop.genome[i] = false
 	}
 
-	kids := mom.Crossover(pop, howLong/2)
+	kid1, kid2 := mom.Crossover(pop, howLong/2)
 
-	for i := range kids[0].genome {
-		if kids[0].genome[i] == kids[1].genome[i] {
+	if mom.size != kid1.size || kid1.size != kid2.size {
+		t.Error("unexpected sizes")
+	}
+
+	for i := range kid1.genome {
+		if kid1.genome[i] == kid2.genome[i] {
 			t.Error("position ", i, " should not be equal")
 		}
 	}
