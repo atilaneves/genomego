@@ -7,13 +7,12 @@ import (
 const howLong = 7
 
 func TestCrossover(t *testing.T) {
-	mom := NewIndividual(howLong)
-	pop := NewIndividual(howLong)
+  population := NewPopulation()
 
-	for i := range mom.genome {
-		mom.genome[i] = true
-		pop.genome[i] = false
-	}
+	population.Rand = func() float32 { return 0.0 }
+	mom := population.NewIndividual(howLong)
+	population.Rand = func() float32 { return 1.0 }
+	pop := population.NewIndividual(howLong)
 
 	kid1, kid2 := mom.Crossover(pop, howLong/2)
 
@@ -25,5 +24,19 @@ func TestCrossover(t *testing.T) {
 		if kid1.genome[i] == kid2.genome[i] {
 			t.Error("position ", i, " should not be equal")
 		}
+	}
+}
+
+func TestMutate(t *testing.T) {
+  population := NewPopulation()
+
+	population.Rand = func() float32 { return 1.0 }
+	mom := population.NewIndividual(1)
+
+	// mom is now all trues
+	mom.Mutate(0.5)
+	// mom should now be all falses
+	if mom.genome[0] {
+		t.Error("mutate didn't mutate")
 	}
 }
