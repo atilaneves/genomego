@@ -1,7 +1,9 @@
-package individual
+package genomego
 
-import "math/rand"
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -9,7 +11,7 @@ type Individual struct {
 	genome []bool
 }
 
-func New(size uint32) *Individual {
+func NewIndividual(size uint32) *Individual {
 	ind := Individual{}
 	ind.genome = make([]bool, size)
 	for i := 0; i < len(ind.genome); i++ {
@@ -26,8 +28,8 @@ func (this *Individual) Crossover(other *Individual, pos uint32) [2]*Individual 
 		panic("Other individual has different length!")
 	}
 
-	child1 := New(uint32(len(this.genome)))
-	child2 := New(uint32(len(this.genome)))
+	child1 := NewIndividual(uint32(len(this.genome)))
+	child2 := NewIndividual(uint32(len(this.genome)))
 	for i := 0; uint32(i) < pos; i++ {
 		child1.genome[i] = this.genome[i]
 		child2.genome[i] = other.genome[i]
