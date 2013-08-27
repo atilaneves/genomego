@@ -11,16 +11,16 @@ type Population struct {
 
 func NewPopulation() *Population {
 	generator := rand.New(rand.NewSource(time.Now().UnixNano()))
-	return &Population{ Rand: func() float32 { return generator.Float32() } }
+	return &Population{Rand: func() float32 { return generator.Float32() }}
 }
 
 type Individual struct {
 	size   int
 	genome []bool
-	p	*Population
+	p      *Population
 }
 
-func (p *Population)NewIndividual(size int) *Individual {
+func (p *Population) NewIndividual(size int) *Individual {
 	ind := Individual{size: size, p: p}
 	ind.genome = make([]bool, ind.size)
 	for i := range ind.genome {
@@ -40,8 +40,8 @@ func (me *Individual) Clone() *Individual {
 // to the zero values.
 func (me *Individual) cloneEmpty() *Individual {
 	them := &Individual{
-		size: me.size,
-		p: me.p,
+		size:   me.size,
+		p:      me.p,
 		genome: make([]bool, me.size),
 	}
 	return them

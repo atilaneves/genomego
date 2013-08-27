@@ -7,7 +7,7 @@ import (
 const howLong = 7
 
 func TestCrossover(t *testing.T) {
-  population := NewPopulation()
+	population := NewPopulation()
 
 	population.Rand = func() float32 { return 0.0 }
 	mom := population.NewIndividual(howLong)
@@ -28,7 +28,7 @@ func TestCrossover(t *testing.T) {
 }
 
 func TestMutate(t *testing.T) {
-  population := NewPopulation()
+	population := NewPopulation()
 
 	population.Rand = func() float32 { return 1.0 }
 	mom := population.NewIndividual(1)
