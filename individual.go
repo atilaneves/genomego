@@ -1,6 +1,7 @@
 package genomego
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -65,6 +66,12 @@ func (me *Individual) Crossover(other *Individual, pos int) (child1, child2 *Ind
 	}
 
 	return
+}
+
+// String makes Individual implement interface Stringer (see fmt)
+// so that when printed Println or printf %v, we only show useful stuff.
+func (me *Individual) String() string {
+	return fmt.Sprint(me.genome)
 }
 
 // Mutate flips the alelles in the Individual's genome with
