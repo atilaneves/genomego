@@ -9,7 +9,7 @@ import (
 
 func allOnes(genome []bool) float64 {
 	ones := 0
-	for _, b := range(genome) {
+	for _, b := range genome {
 		if b {
 			ones++
 		}

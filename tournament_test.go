@@ -33,8 +33,8 @@ func TestTournament(t *testing.T) {
 	if len(newPop) != numIndividuals {
 		t.Error("new population has different number of individuals")
 	}
-	for _, i := range(newPop) {
-		for _, b := range(i.genome) {
+	for _, i := range newPop {
+		for _, b := range i.genome {
 			if !b {
 				t.Error("All bits should be true")
 			}

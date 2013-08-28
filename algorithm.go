@@ -15,10 +15,11 @@ func NewGeneticAlgorithm(popSize int, genSize int,
 }
 
 func (ga *GeneticAlgorithm) Run(endFitness float64 , mutationRate float64) *Individual {
-	population := make([]*Individual, ga.popSize)
+	var population []*Individual
 	for i := 0; i < ga.popSize; i++ {
-		population[i] = NewIndividual(ga.genSize, ga.generator)
-		population[i].CalculateFitness(ga.fitnessFunc)
+		individual := NewIndividual(ga.genSize, ga.generator)
+		individual.CalculateFitness(ga.fitnessFunc)
+		population = append(population, individual)
 	}
 
 	generation := 0
@@ -27,7 +28,7 @@ func (ga *GeneticAlgorithm) Run(endFitness float64 , mutationRate float64) *Indi
 		printGeneration(population, generation)
 		const numParticipants = 2
 		population = Tournament(population, numParticipants, ga.generator)
-		for _, i := range(population) {
+		for _, i := range population {
 			i.CalculateFitness(ga.fitnessFunc)
 		}
 		generation++
@@ -45,27 +46,23 @@ func printGeneration(pop []*Individual, generation int) {
 	fmt.Println();
 }
 
-func getHighestFitess(pop []*Individual) float64 {
-	var max float64
-	for _, i := range(pop) {
+func getHighestFitess(pop []*Individual) (max float64) {
+	for _, i := range pop {
 		if i.fitness > max {
 			max = i.fitness
 		}
 	}
 
-	return max
-
+	return
 }
 
-func getFittest(pop []*Individual) *Individual {
+func getFittest(pop []*Individual) (fittest *Individual) {
 	max := getHighestFitess(pop)
-	var fittest *Individual
-	for _, i := range(pop) {
+	for _, i := range pop {
 		if i.fitness == max {
 			fittest = i
 		}
 	}
 
-	return fittest
-
+	return
 }

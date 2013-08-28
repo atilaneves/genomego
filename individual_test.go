@@ -58,7 +58,7 @@ func TestMutate(t *testing.T) {
 
 func numTrues(genome []bool) float64 {
 	var value uint
-	for _, b := range(genome) {
+	for _, b := range genome {
 		if(b) {
 			value++
 		}
