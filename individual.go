@@ -18,6 +18,7 @@ func NewIndividualFactory() *IndividualFactory {
 type Individual struct {
 	size   int
 	genome []bool
+	fitness float64
 	p      *IndividualFactory
 }
 
@@ -82,4 +83,8 @@ func (me *Individual) Mutate(rate float32) {
 			me.genome[i] = !me.genome[i]
 		}
 	}
+}
+
+func(me *Individual) CalculateFitness(fitnessFunc func([]bool) float64) {
+	me.fitness = fitnessFunc(me.genome)
 }
