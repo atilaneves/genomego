@@ -5,11 +5,11 @@ import (
 )
 
 type altIntGenerator struct {
-	floatValue float32
+	floatValue float64
 	intValue int
 }
 
-func (d *altIntGenerator) Float32() float32 {
+func (d *altIntGenerator) Float64() float64 {
 	return d.floatValue
 }
 
@@ -19,18 +19,16 @@ func (d *altIntGenerator) Intn(int) int {
 }
 
 func TestTournament(t *testing.T) {
-	factory := NewIndividualFactory()
-	factory.Rand = func() float32 { return 0.0 }
 	const numIndividuals = 2
 	pop := make([]*Individual, numIndividuals)
 
+	generator := altIntGenerator{ 0.0, 0 }
 	for i := 0; i < numIndividuals; i++ {
-		pop[i] = factory.NewIndividual(howLong)
+		pop[i] = NewIndividual(howLong, Generator(&generator))
 		pop[i].CalculateFitness(numTrues);
 	}
 
 	const numParticipants = 2
-	generator := altIntGenerator{ 0.0, 0 }
 	newPop := Tournament(pop, numParticipants, Generator(&generator))
 	if len(newPop) != numIndividuals {
 		t.Error("new population has different number of individuals")

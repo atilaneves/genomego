@@ -2,36 +2,25 @@ package genomego
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
 )
 
 type Generator interface {
-	Float32() float32
+	Float64() float64
 	Intn(int) int
 }
 
-type IndividualFactory struct {
-	Rand func() float32
-}
-
-func NewIndividualFactory() *IndividualFactory {
-	generator := rand.New(rand.NewSource(time.Now().UnixNano()))
-	return &IndividualFactory{Rand: func() float32 { return generator.Float32() }}
-}
 
 type Individual struct {
-	size   int
 	genome []bool
+	generator Generator
 	fitness float64
-	p      *IndividualFactory
 }
 
-func (p *IndividualFactory) NewIndividual(size int) *Individual {
-	ind := Individual{size: size, p: p}
-	ind.genome = make([]bool, ind.size)
+func NewIndividual(size int, generator Generator) *Individual {
+	ind := Individual{genome: make([]bool, size), generator:generator}
+	ind.genome = make([]bool, size)
 	for i := range ind.genome {
-		ind.genome[i] = (p.Rand() < 0.5)
+		ind.genome[i] = (generator.Float64() < 0.5)
 	}
 	return &ind
 }
@@ -43,15 +32,14 @@ func (me *Individual) Clone() *Individual {
 	return them
 }
 
+func (me *Individual) Size() int {
+	return len(me.genome)
+}
+
 // cloneEmpty clones an Individual, but leaves the genome initialized
 // to the zero values.
 func (me *Individual) cloneEmpty() *Individual {
-	them := &Individual{
-		size:   me.size,
-		p:      me.p,
-		genome: make([]bool, me.size),
-	}
-	return them
+	return &Individual{make([]bool, len(me.genome)), me.generator, me.fitness}
 }
 
 func (me *Individual) Crossover(other *Individual, pos int) (child1, child2 *Individual) {
@@ -66,7 +54,7 @@ func (me *Individual) Crossover(other *Individual, pos int) (child1, child2 *Ind
 		child2.genome[i] = other.genome[i]
 	}
 
-	for i := pos; i < me.size; i++ {
+	for i := pos; i < len(me.genome); i++ {
 		child2.genome[i] = me.genome[i]
 		child1.genome[i] = other.genome[i]
 	}
@@ -82,9 +70,9 @@ func (me *Individual) String() string {
 
 // Mutate flips the alelles in the Individual's genome with
 // a probability of rate (for 0.0 <= rate < 1.0)
-func (me *Individual) Mutate(rate float32) {
-	for i := 0; i < me.size; i++ {
-		if me.p.Rand() < rate {
+func (me *Individual) Mutate(rate float64) {
+	for i := 0; i < len(me.genome); i++ {
+		if me.generator.Float64() < rate {
 			me.genome[i] = !me.genome[i]
 		}
 	}

@@ -7,11 +7,11 @@ func Tournament(population []*Individual, numParticipants int, generator Generat
 		father := getWinner(population, numParticipants, generator)
 		mother := getWinner(population, numParticipants, generator)
 
-		xoverPoint := generator.Intn(father.size)
+		xoverPoint := generator.Intn(father.Size())
 		child1, child2 := father.Crossover(mother, xoverPoint)
 
-		child1.Mutate(generator.Float32())
-		child2.Mutate(generator.Float32())
+		child1.Mutate(generator.Float64())
+		child2.Mutate(generator.Float64())
 
 		newPopulation[index] = child1
 		index++ // sigh
