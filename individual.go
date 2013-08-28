@@ -6,22 +6,22 @@ import (
 	"time"
 )
 
-type Population struct {
+type IndividualFactory struct {
 	Rand func() float32
 }
 
-func NewPopulation() *Population {
+func NewIndividualFactory() *IndividualFactory {
 	generator := rand.New(rand.NewSource(time.Now().UnixNano()))
-	return &Population{Rand: func() float32 { return generator.Float32() }}
+	return &IndividualFactory{Rand: func() float32 { return generator.Float32() }}
 }
 
 type Individual struct {
 	size   int
 	genome []bool
-	p      *Population
+	p      *IndividualFactory
 }
 
-func (p *Population) NewIndividual(size int) *Individual {
+func (p *IndividualFactory) NewIndividual(size int) *Individual {
 	ind := Individual{size: size, p: p}
 	ind.genome = make([]bool, ind.size)
 	for i := range ind.genome {
