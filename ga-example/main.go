@@ -2,28 +2,29 @@ package main
 
 import (
 	"fmt"
-	"github.com/jeffallen/genomego"
+	"math/rand"
+	"time"
+	"github.com/atilaneves/genomego"
 )
 
-func calcFitness() float64 {
-	return 0
+func allOnes(genome []bool) float64 {
+	ones := 0
+	for _, b := range(genome) {
+		if b {
+			ones++
+		}
+	}
+
+	return float64(ones)
 }
 
 func main() {
-	fmt.Println("GA!")
-	pop := genomego.NewPopulation()
-	father := pop.NewIndividual(7)
-	fmt.Println("father:", father)
-
-	mother := pop.NewIndividual(7)
-	fmt.Println("mother:", mother)
-
-	child1, child2 := father.Crossover(mother, 2)
-	fmt.Println("Children:", child1, child2)
-
-	father.Mutate(0.0) //0% mutation
-	fmt.Println("father after 0% mutation:", father)
-
-	father.Mutate(1.0) //100% mutation
-	fmt.Println("father after 100% mutation:", father)
+	const popSize = 20
+	const genSize = 12
+	generator := genomego.Generator(rand.New(rand.NewSource(time.Now().UnixNano())))
+	ga := genomego.NewGeneticAlgorithm(popSize, genSize, allOnes, generator)
+	const endFitness = genSize
+	const mutationRate = 0.05
+	fittest := ga.Run(endFitness, mutationRate)
+	fmt.Println("fittest is ", fittest)
 }
