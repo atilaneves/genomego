@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+type Generator interface {
+	Float32() float32
+	Intn(int) int
+}
+
 type IndividualFactory struct {
 	Rand func() float32
 }
