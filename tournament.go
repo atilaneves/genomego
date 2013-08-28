@@ -1,7 +1,7 @@
 package genomego
 
 func Tournament(population []*Individual, numParticipants int, generator Generator) []*Individual {
-	var newPopulation []*Individual;
+	var newPopulation []*Individual
 	for len(newPopulation) < len(population) {
 		father := getWinner(population, numParticipants, generator)
 		mother := getWinner(population, numParticipants, generator)

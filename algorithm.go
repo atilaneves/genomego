@@ -3,18 +3,18 @@ package genomego
 import "fmt"
 
 type GeneticAlgorithm struct {
-	popSize int
-	genSize int
-	fitnessFunc func([] bool) float64
-	generator Generator
+	popSize     int
+	genSize     int
+	fitnessFunc func([]bool) float64
+	generator   Generator
 }
 
 func NewGeneticAlgorithm(popSize int, genSize int,
-	fitnessFunc func([] bool) float64, generator Generator) *GeneticAlgorithm {
-	return  &GeneticAlgorithm{popSize, genSize, fitnessFunc, generator}
+	fitnessFunc func([]bool) float64, generator Generator) *GeneticAlgorithm {
+	return &GeneticAlgorithm{popSize, genSize, fitnessFunc, generator}
 }
 
-func (ga *GeneticAlgorithm) Run(endFitness float64 , mutationRate float64) *Individual {
+func (ga *GeneticAlgorithm) Run(endFitness float64, mutationRate float64) *Individual {
 	var population []*Individual
 	for i := 0; i < ga.popSize; i++ {
 		individual := NewIndividual(ga.genSize, ga.generator)
@@ -39,11 +39,11 @@ func (ga *GeneticAlgorithm) Run(endFitness float64 , mutationRate float64) *Indi
 }
 
 func printGeneration(pop []*Individual, generation int) {
-	fmt.Println("Generation ", generation);
+	fmt.Println("Generation ", generation)
 	for _, i := range pop {
-		fmt.Println(i.genome);
+		fmt.Println(i.genome)
 	}
-	fmt.Println();
+	fmt.Println()
 }
 
 func getHighestFitess(pop []*Individual) (max float64) {

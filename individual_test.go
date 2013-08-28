@@ -6,22 +6,23 @@ import (
 
 const howLong = 7
 
-type ZeroGenerator struct { }
+type ZeroGenerator struct{}
+
 func (*ZeroGenerator) Float64() float64 {
-	return 0.0;
+	return 0.0
 }
 func (*ZeroGenerator) Intn(int) int {
-	return 0;
+	return 0
 }
 
-type OneGenerator struct { }
+type OneGenerator struct{}
+
 func (*OneGenerator) Float64() float64 {
-	return 1.0;
+	return 1.0
 }
 func (*OneGenerator) Intn(int) int {
-	return 0;
+	return 0
 }
-
 
 func TestCrossover(t *testing.T) {
 	zeroGenerator := Generator(&ZeroGenerator{})
@@ -55,11 +56,10 @@ func TestMutate(t *testing.T) {
 	}
 }
 
-
 func numTrues(genome []bool) float64 {
 	var value uint
 	for _, b := range genome {
-		if(b) {
+		if b {
 			value++
 		}
 	}
@@ -76,7 +76,7 @@ func TestCalcFitness(t *testing.T) {
 	}
 	ind1.genome[0] = false
 	ind1.CalculateFitness(numTrues)
-	if int(ind1.fitness) != size - 1 {
+	if int(ind1.fitness) != size-1 {
 		t.Error("fitness did not decrease")
 	}
 }

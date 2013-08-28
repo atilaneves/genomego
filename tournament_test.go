@@ -6,7 +6,7 @@ import (
 
 type altIntGenerator struct {
 	floatValue float64
-	intValue int
+	intValue   int
 }
 
 func (d *altIntGenerator) Float64() float64 {
@@ -22,10 +22,10 @@ func TestTournament(t *testing.T) {
 	const numIndividuals = 2
 	pop := make([]*Individual, numIndividuals)
 
-	generator := altIntGenerator{ 0.0, 0 }
+	generator := altIntGenerator{0.0, 0}
 	for i := 0; i < numIndividuals; i++ {
 		pop[i] = NewIndividual(howLong, Generator(&generator))
-		pop[i].CalculateFitness(numTrues);
+		pop[i].CalculateFitness(numTrues)
 	}
 
 	const numParticipants = 2

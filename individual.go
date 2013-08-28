@@ -9,15 +9,14 @@ type Generator interface {
 	Intn(int) int
 }
 
-
 type Individual struct {
-	genome []bool
+	genome    []bool
 	generator Generator
-	fitness float64
+	fitness   float64
 }
 
 func NewIndividual(size int, generator Generator) *Individual {
-	ind := Individual{genome: make([]bool, size), generator:generator}
+	ind := Individual{genome: make([]bool, size), generator: generator}
 	ind.genome = make([]bool, size)
 	for i := range ind.genome {
 		ind.genome[i] = (generator.Float64() < 0.5)
@@ -78,6 +77,6 @@ func (me *Individual) Mutate(rate float64) {
 	}
 }
 
-func(me *Individual) CalculateFitness(fitnessFunc func([]bool) float64) {
+func (me *Individual) CalculateFitness(fitnessFunc func([]bool) float64) {
 	me.fitness = fitnessFunc(me.genome)
 }
