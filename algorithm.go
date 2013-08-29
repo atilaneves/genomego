@@ -1,6 +1,7 @@
 package genomego
 
 import "fmt"
+import "sync"
 
 type GeneticAlgorithm struct {
 	popSize     int
@@ -28,9 +29,15 @@ func (ga *GeneticAlgorithm) Run(endFitness float64, mutationRate float64) *Indiv
 		printGeneration(population, generation)
 		const numParticipants = 2
 		population = Tournament(population, numParticipants, ga.generator)
+		var waitGroup sync.WaitGroup
 		for _, i := range population {
-			i.CalculateFitness(ga.fitnessFunc)
+			waitGroup.Add(1)
+			go func(i *Individual) {
+				i.CalculateFitness(ga.fitnessFunc)
+				waitGroup.Done()
+			}(i)
 		}
+		waitGroup.Wait()
 		generation++
 	}
 
